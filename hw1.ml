@@ -1,6 +1,5 @@
 (** 
     Alan_Huang 
-    113443530 
     Ritwik Banerjee 
     CSE-216 Spring2022 
     HW#1
