@@ -36,6 +36,11 @@ let rec slice lst x y =
     | [] -> []
     | h::t -> if y > 1 && x < 1 then h::slice t (x-1) (y-1) else slice t (x-1) (y-1);;
 
+(**5*)
+let rec equivs funct lst =
+
+(**#6*)
+let rec goldbachpair int =
 
 (**#7*)
 let rec equiv_on f g lst = 
@@ -50,3 +55,9 @@ let rec pairwisefilter cmp lst =
     | h::[] -> [h]
     | h::t -> cmp h (List.hd t)::pairwisefilter cmp (List.tl t);;
 
+(**#9*)
+let rec polnyomial lst = 
+
+
+(**#10*)
+let powerset list = 
