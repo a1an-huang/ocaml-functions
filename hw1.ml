@@ -1,6 +1,5 @@
 (** 
-    Alan_Huang 
-    113443530 
+    Alan Huang  
     Ritwik Banerjee 
     CSE-216 Spring2022 
     HW#1
@@ -9,6 +8,7 @@
 (**#1*)
 let rec pow x n = 
     match n with 
+    | 0 -> 1
     | 1 -> x
     | _ -> x * pow x (n-1);;
 
@@ -40,7 +40,9 @@ let rec slice lst x y =
 let rec equivs funct lst =
 
 (**#6*)
-let rec goldbachpair int =
+let rec prime = 
+
+let goldbachpair x =;;
 
 (**#7*)
 let rec equiv_on f g lst = 
@@ -56,8 +58,17 @@ let rec pairwisefilter cmp lst =
     | h::t -> cmp h (List.hd t)::pairwisefilter cmp (List.tl t);;
 
 (**#9*)
-let rec polnyomial lst = 
+let rec polynomial_helper lst funct= 
+    match lst with
+    | [] -> funct
+    | (a, b)::t -> polynomial_helper t (fun x -> funct x + a * pow x b);;
 
+let polynomial lst = 
+    polynomial_helper lst (fun x -> 0);;
+
+let f = polynomial [3, 3; -2, 1; 5, 0];;
+
+f 2;;
 
 (**#10*)
 let powerset list = 
