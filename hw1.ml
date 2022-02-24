@@ -47,20 +47,20 @@ let rec equivs funct lst = ;;
 
 (**#6*)
 let rec isPrime x y = 
-    if (x == 2 || y * y > x) then true
-    else if (x mod y == 0) then false
-    else isPrime x (y + 1);;
+    if (x == 2 || y * y > x) then true (** base case returns truechecks if x equal to two or the square of the divisor is greater than the number *)
+    else if (x mod y == 0) then false   (** base case if the number is divisable by a divisor return false *)
+    else isPrime x (y + 1);;    (** adds one to the divisor if it is neither true or false *)
     
 let goldbachpair x =
     let rec aux y =
-        if isPrime y 2 && isPrime (x - y) 2 then (y, x - y) else aux(y + 1) in aux 2;;
+        if isPrime y 2 && isPrime (x - y) 2 then (y, x - y) else aux(y + 1) in aux 2;; (** starting with the number 2 recursively trieds to find pairs by subtracting the input by a number starting at 2 which increases by 1 every check *)
 (** goldbachpair 10;;*)
 
 (**#7*)
 let rec equiv_on f g lst = 
     match lst with 
-    | [] -> true
-    | h::t -> if (f h = g h) then equiv_on f g t else false;; 
+    | [] -> true (** base case when a list is empty returns true *)
+    | h::t -> if (f h = g h) then equiv_on f g t else false;; (** compares the out of the two functions used on the head of the list either concat the head or return false *)
 (**let f i = i * i;; let g i = 3 * i;; equiv_on f g [3];; equiv_on f g [1;2;3];;*)
 
 (**#8*)
@@ -84,6 +84,17 @@ let polynomial lst =
 
 
 (**#10*)
-let rec powerset lst = 
+let rec powerset_helper set (prevs : int) = 
+    match set with 
+    | [] -> set
+    | []::t -> set@[prevs]::(powerset_helper t prevs)
+    | (h::[])::t -> (h::[prevs])::(powerset_helper t prevs)
+    | (h::x)::t -> ((h::x)@[prevs])::(powerset_helper t prevs)
+    let rec powerset_checker lst set = 
+        match lst with 
+        | [] -> set
+        | h::t -> powerset_checker t (powerset_helper set h);;
+let powerset lst =
+    powerset_checker lst [[]];;
 
 (** powerset [3; 4; 10];;*)
