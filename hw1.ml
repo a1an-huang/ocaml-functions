@@ -1,7 +1,7 @@
 (** 
     Alan Huang  
     Ritwik Banerjee 
-    CSE-216 Spring2022 
+    CSE-216 Spring 2022 
     HW#1
 *)
 
@@ -25,7 +25,7 @@ let rec compress lst =
     match lst with 
     | [] -> [] (** base case for when list is empty -> returns an empty list*)
     | [x] -> [x]    (** base case for when there is only one element in the list -> returns the single element(for when there are odd num of values in the list) *)
-    | h::t -> if h = List.hd then compress t else  h::compress t;; (** compares head with the head of the tail, if they are equal return the tail, other wise return the h appened with the recurive call of the tail *)
+    | h::t -> if h = List.hd t then compress t else  h::compress t;; (** compares head with the head of the tail, if they are equal return the tail, other wise return the h appened with the recurive call of the tail *)
 (**compress ["a";"a";"b";"c";"c";"a";"a";"d";"e";"e";"e"];;*)
 
 (**#3*)
@@ -39,11 +39,26 @@ let rec remove_if lst funct =
 let rec slice lst x y = 
     match lst with  
     | [] -> []  (** base case return empty lsit when list is empty *)
-    | h::t -> if y > 1 && x < 1 then h::slice t (x-1) (y-1) else slice t (x-1) (y-1);; (** appends h with the recurive call of t or recursively call t only depending if the index is between the range x - y*)
+    | h::t -> if y > 0 && x < 1 then h::slice t (x-1) (y-1) else slice t (x-1) (y-1);; (** appends h with the recurive call of t or recursively call t only depending if the index is between the range x - y*)
 (**slice ["a";"b";"c";"d";"e";"f";"g";"h"] 2 6;;*)
 
 (**5*)
-let rec equivs funct lst = ;;
+let rec equivs_helper funct prevs classes = 
+    match classes with 
+    | [] -> [[prevs]]
+    | []::t -> []
+    | (h::[])::t -> if funct h prevs then (h::[prevs])::t else [h]::(equivs_helper funct prevs t)
+    | (h::x)::t -> if funct h prevs then ((h::x)@[prevs])::t else (h::x)::(equivs_helper funct prevs t);;
+let rec equivs_checker funct lst classes = 
+    match lst with
+    | [] -> classes
+    | h::t -> equivs_checker funct t (equivs_helper funct h classes);;
+let equivs funct lst = 
+    match lst with 
+    | [] -> [[]]
+    | h::t -> equivs_checker funct t [[h]];;
+(** equivs (=) [1;2;3;4];;*)
+(** equivs (fun x y -> (=) (x mod 2) (y mod 2)) [1; 2; 3; 4; 5; 6; 7; 8];;*)
 
 (**#6*)
 let rec isPrime x y = 
@@ -66,9 +81,9 @@ let rec equiv_on f g lst =
 (**#8*)
 let rec pairwisefilter cmp lst = 
     match lst with
-    | [] -> []
-    | h::[] -> [h]
-    | h::t -> cmp h (List.hd t)::pairwisefilter cmp (List.tl t);;
+    | [] -> []  (** base case when list is empty return empty list *)
+    | h::[] -> [h]  (**base case when there is only one element left in the list return that one element *)
+    | h::t -> cmp h (List.hd t)::pairwisefilter cmp (List.tl t);; (** compares the head of the list with the head of the tail list and append the outcome to the recursive call of the function *)
 (**pairwisefilter min [14; 11; 20; 25; 10; 11];; pairwisefilter shorter ["and"; "this"; "makes"; "shorter"; "strings"; "always"; "win"];;*)
 
 (**#9*)
@@ -78,7 +93,7 @@ let rec polynomial_helper lst funct =
     | (a, b)::t -> polynomial_helper t (fun x -> funct x + a * pow x b);;
 
 let polynomial lst = 
-    polynomial_helper lst (fun x -> 0);;
+    polynomial_helper lst (fun x -> 0);; (** calls helper function with lst and a base function that holds 0*)
 
 (** let f = polynomial [3, 3; -2, 1; 5, 0];; f 2;;*)
 
