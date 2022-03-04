@@ -93,13 +93,13 @@ let rec polynomial_helper lst funct =
     | (a, b)::t -> polynomial_helper t (fun x -> funct x + a * pow x b);;
 
 let polynomial lst = 
-    polynomial_helper lst (fun x -> 0);; (** calls helper function with lst and a base function that holds 0*)
+    polynomial_helper lst (fun x -> 0);;                                                                 (** calls helper function with lst and a base function that holds 0*)
 
 (** let f = polynomial [3, 3; -2, 1; 5, 0];; f 2;;*)
 
 
 (**#10*)
-let rec powerset_helper set (prevs : int) = 
+let rec powerset_helper set prevs = 
     match set with 
     | [] -> set
     | []::t -> set@[prevs]::(powerset_helper t prevs)
@@ -112,4 +112,4 @@ let rec powerset_helper set (prevs : int) =
 let powerset lst =
     powerset_checker lst [[]];;
 
-(** powerset [3; 4; 10];;*)
+(**powerset [3; 4; 10];;*)
